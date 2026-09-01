@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="fa" dir="ltr">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Furniro | Single Product</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+  tailwind.config = {
+    theme: { extend: {
+      colors: { primary: '#B88E2F', cream: '#FFF3E3', ink: '#333333', muted: '#555555', light: '#F4F5F7' },
+      fontFamily: { poppins: ['Poppins','sans-serif'], montserrat: ['Montserrat','sans-serif'] },
+    } },
+  };
+</script>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;600;700&family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  body { min-height:100vh; font-family:'Poppins','Montserrat',sans-serif; background:#fff; }
+  .header-container{display:flex;align-items:center;justify-content:space-between;width:100%;height:100px;padding:0 54px;background:#fff;border-bottom:1px solid #f0f0f0;}
+  .logo{display:flex;align-items:center;gap:8px;text-decoration:none;color:#000;font-family:'Montserrat',sans-serif;}
+  .logo img{width:50px;height:auto;object-fit:contain;}
+  .logo h1{font-size:34px;font-weight:700;line-height:1;}
+  .main-nav ul{display:flex;align-items:center;gap:75px;list-style:none;}
+  .main-nav a{font-size:16px;font-weight:500;color:#000;text-decoration:none;transition:color .3s;}
+  .main-nav a:hover,.main-nav a.active{color:#B88E2F;}
+  .header-actions{display:flex;align-items:center;gap:45px;position:relative;}
+  .action-btn{display:inline-flex;align-items:center;justify-content:center;font-size:24px;color:#000;text-decoration:none;transition:color .3s,transform .2s;position:relative;}
+  .action-btn:hover{color:#B88E2F;transform:translateY(-2px);}
+  .cart-count{position:absolute;top:-8px;right:-8px;background:#B88E2F;color:#fff;font-size:10px;width:16px;height:16px;border-radius:50%;display:flex;align-items:center;justify-content:center;}
+  .breadcrumb-bar{width:100%;background:#F9F1E7;padding:20px 54px;font-size:14px;color:#555;}
+  .breadcrumb-bar a{color:#555;text-decoration:none;}
+  .breadcrumb-bar span{color:#000;}
+  .thumb{width:80px;height:80px;border-radius:6px;object-fit:cover;cursor:pointer;background:#F9F1E7;}
+  .thumb.active{outline:2px solid #B88E2F;}
+  .color-dot{width:26px;height:26px;border-radius:50%;cursor:pointer;display:inline-block;}
+  .color-dot.active{outline:2px solid #333;outline-offset:2px;}
+  .qty-box{display:flex;align-items:center;border:1px solid #9F9F9F;border-radius:6px;overflow:hidden;}
+  .qty-box button{width:44px;height:48px;background:#fff;border:none;font-size:18px;cursor:pointer;}
+  .qty-box input{width:44px;height:48px;text-align:center;border:none;border-left:1px solid #9F9F9F;border-right:1px solid #9F9F9F;}
+  .btn-outline-gold{border:1px solid #B88E2F;color:#B88E2F;background:#fff;padding:12px 40px;font-weight:500;}
+  .tab-btn{font-size:16px;font-weight:500;color:#9F9F9F;padding-bottom:8px;cursor:pointer;}
+  .tab-btn.active{color:#000;border-bottom:2px solid #000;}
+  .product-badge{position:absolute;top:16px;right:16px;width:36px;height:36px;border-radius:9999px;display:flex;align-items:center;justify-content:center;color:#fff;font-size:12px;font-weight:600;z-index:2;}
+  .product-badge--sale{background:#E97171;}
+  .product-badge--new{background:#2EC1AC;}
+  .related-card__body{padding:16px 0;background:#F4F5F7;text-align:center;}
+  .related-card__name{font-weight:600;font-size:18px;color:#333;}
+  .related-card__cat{font-size:14px;color:#666;margin-top:4px;}
+  .features-bar{width:100%;background:#FAF3EA;padding:48px 54px;display:flex;align-items:center;justify-content:space-evenly;flex-wrap:wrap;gap:32px;}
+  .feature-item{display:flex;align-items:center;gap:16px;}
+  .feature-item__icon{width:64px;height:64px;border-radius:9999px;background:#FAF3EA;border:1px solid rgba(184,142,47,.15);display:flex;align-items:center;justify-content:center;color:#B88E2F;}
+  .feature-item__title{font-weight:600;font-size:18px;color:#242424;}
+  .feature-item__text{font-size:14px;color:#666;}
+  .footer-heading{font-family:'Montserrat';font-weight:600;font-size:15px;color:#333;margin-bottom:20px;}
+  .footer-link{font-size:14px;color:#666;display:block;margin-bottom:14px;}
+  .newsletter-input{border:none;border-bottom:1px solid #333;background:transparent;padding:6px 0;font-size:14px;width:100%;outline:none;}
+  /* mini cart */
+  .mini-cart{position:absolute;top:70px;right:0;width:360px;background:#fff;box-shadow:0 10px 30px rgba(0,0,0,.15);border-radius:4px;padding:24px;z-index:50;display:none;}
+  .mini-cart.open{display:block;}
+  .mini-cart__item{display:flex;align-items:center;gap:12px;padding:12px 0;border-bottom:1px solid #f0f0f0;}
+  .mini-cart__item img{width:56px;height:56px;object-fit:cover;border-radius:4px;}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="header-container">
+    <a href="home.html" class="logo"><img src="https://api.iconify.design/game-icons:sofa.svg?color=%23B88E2F" alt="" /><h1>Furniro</h1></a>
+    <nav class="main-nav"><ul>
+      <li><a href="home.html">Home</a></li>
+      <li><a href="shop.html">Shop</a></li>
+      <li><a href="about.html">About</a></li>
+      <li><a href="contact.html">Contact</a></li>
+    </ul></nav>
+    <div class="header-actions">
+      <a href="#" class="action-btn"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M20 21a8 8 0 1 0-16 0"/><circle cx="12" cy="7" r="4"/></svg></a>
+      <a href="#" class="action-btn"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg></a>
+      <a href="#" class="action-btn"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.6l-1-1a5.5 5.5 0 0 0-7.8 7.8l1 1L12 21l7.8-7.8 1-1a5.5 5.5 0 0 0 0-7.6Z"/></svg></a>
+      <button id="cartBtn" class="action-btn">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.7 13.4a2 2 0 0 0 2 1.6h9.7a2 2 0 0 0 2-1.6L23 6H6"/></svg>
+        <span class="cart-count">2</span>
+      </button>
+      <div id="miniCart" class="mini-cart">
+        <div class="flex items-center justify-between mb-4">
+          <p class="font-semibold">Shopping Cart</p>
+          <button onclick="document.getElementById('miniCart').classList.remove('open')">&times;</button>
+        </div>
+        <div class="mini-cart__item">
+          <img src="https://picsum.photos/seed/mc1/100/100" alt="" />
+          <div class="flex-1"><p class="text-sm">Asgaard sofa</p><p class="text-xs text-primary">1 x Rp 250,000</p></div>
+          <button class="text-[#B88E2F]">&times;</button>
+        </div>
+        <div class="mini-cart__item">
+          <img src="https://picsum.photos/seed/mc2/100/100" alt="" />
+          <div class="flex-1"><p class="text-sm">Casaliving Sofa</p><p class="text-xs text-primary">1 x Rp 300,000</p></div>
+          <button class="text-[#B88E2F]">&times;</button>
+        </div>
+        <div class="flex items-center justify-between mt-4 text-sm">
+          <span>Subtotal</span><span class="text-primary font-semibold">Rp 550,000</span>
+        </div>
+        <div class="flex items-center gap-3 mt-4 text-xs">
+          <a href="cart.html" class="border border-black rounded-full px-4 py-2">Cart</a>
+          <a href="checkout.html" class="border border-black rounded-full px-4 py-2">Checkout</a>
+          <a href="compare.html" class="border border-black rounded-full px-4 py-2">Comparison</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<div class="breadcrumb-bar">
+  <a href="home.html">Home</a> &nbsp;>&nbsp; <a href="shop.html">Shop</a> &nbsp;>&nbsp; <span>Asgaard sofa</span>
+</div>
+
+<!-- ===== Product main ===== -->
+<section class="max-w-[1236px] mx-auto px-6 py-16 grid grid-cols-1 lg:grid-cols-[110px_1fr_1fr] gap-8">
+  <div class="flex lg:flex-col gap-4 order-2 lg:order-1">
+    <img id="thumb1" class="thumb active" src="https://picsum.photos/seed/sp-thumb1/160/160" onclick="setMain(this)" />
+    <img id="thumb2" class="thumb" src="https://picsum.photos/seed/sp-thumb2/160/160" onclick="setMain(this)" />
+    <img id="thumb3" class="thumb" src="https://picsum.photos/seed/sp-thumb3/160/160" onclick="setMain(this)" />
+    <img id="thumb4" class="thumb" src="https://picsum.photos/seed/sp-thumb4/160/160" onclick="setMain(this)" />
+  </div>
+
+  <div class="order-1 lg:order-2 relative bg-[#F9F1E7] rounded-lg overflow-hidden">
+    <img id="mainImage" src="https://picsum.photos/seed/sp-thumb1/700/700" class="w-full h-full object-cover" />
+  </div>
+
+  <div class="order-3">
+    <h1 class="font-montserrat text-3xl font-semibold text-ink">Asgaard sofa</h1>
+    <p class="text-lg text-[#9F9F9F] mt-2">Rp 250,000,000</p>
+    <div class="flex items-center gap-2 mt-3">
+      <div class="flex text-[#B88E2F]">★★★★<span class="text-[#D8D8D8]">★</span></div>
+      <span class="w-px h-4 bg-[#9F9F9F]"></span>
+      <span class="text-sm text-[#9F9F9F]">5 Customer Review</span>
+    </div>
+    <p class="text-sm text-muted leading-relaxed mt-5 max-w-md">
+      Setting the bar as one of the loudest speakers in its class, the Asgaard
+      sofa is a favourite for its solid build quality and classic design.
+    </p>
+
+    <div class="mt-6">
+      <p class="text-sm text-[#9F9F9F] mb-2">Size</p>
+      <div class="flex gap-3">
+        <button class="w-10 h-10 rounded bg-[#F9F1E7] font-medium">L</button>
+        <button class="w-10 h-10 rounded bg-[#B88E2F] text-white font-medium">XL</button>
+        <button class="w-10 h-10 rounded bg-[#F9F1E7] font-medium">XS</button>
+      </div>
+    </div>
+
+    <div class="mt-6">
+      <p class="text-sm text-[#9F9F9F] mb-2">Color</p>
+      <div class="flex gap-3">
+        <span class="color-dot active" style="background:#816DFA"></span>
+        <span class="color-dot" style="background:#000"></span>
+        <span class="color-dot" style="background:#B88E2F"></span>
+      </div>
+    </div>
+
+    <div class="flex items-center gap-6 mt-8">
+      <div class="qty-box">
+        <button onclick="stepQty(-1)">-</button>
+        <input id="qtyInput" type="text" value="1" readonly />
+        <button onclick="stepQty(1)">+</button>
+      </div>
+      <button class="btn-outline-gold">Add To Cart</button>
+    </div>
+
+    <hr class="my-8 border-[#D9D9D9]" />
+
+    <p class="text-sm text-[#9F9F9F]">SKU &nbsp; <span class="text-ink">SS001</span></p>
+    <p class="text-sm text-[#9F9F9F] mt-2">Category &nbsp; <span class="text-ink">Sofas</span></p>
+    <p class="text-sm text-[#9F9F9F] mt-2">Tags &nbsp; <span class="text-ink">Sofa, Chair, Home, Shop</span></p>
+    <p class="text-sm text-[#9F9F9F] mt-2">Share &nbsp;
+      <span class="inline-flex gap-3 align-middle ms-2">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M22 12a10 10 0 1 0-11.6 9.9v-7H7.9V12h2.5V9.8c0-2.5 1.5-3.9 3.8-3.9 1.1 0 2.2.2 2.2.2v2.4h-1.3c-1.2 0-1.6.8-1.6 1.6V12h2.8l-.4 2.9h-2.4v7A10 10 0 0 0 22 12Z"/></svg>
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M18.9 2H22l-7.3 8.3L23 22h-6.6l-5.2-6.8L5.2 22H2l7.8-8.9L1 2h6.8l4.7 6.2L18.9 2Zm-1.2 18h1.8L7.4 4H5.5L17.7 20Z"/></svg>
+      </span>
+    </p>
+  </div>
+</section>
+
+<!-- ===== Tabs ===== -->
+<section class="max-w-[1236px] mx-auto px-6 pb-16">
+  <div class="flex items-center justify-center gap-10 border-b border-[#D9D9D9] pb-4">
+    <span class="tab-btn active">Description</span>
+    <span class="tab-btn">Additional Information</span>
+    <span class="tab-btn">Reviews [5]</span>
+  </div>
+  <div class="max-w-2xl mx-auto text-sm text-muted leading-relaxed text-center mt-8 space-y-4">
+    <p>Embodying the raw, wayward spirit of rock 'n' roll, the Kilburn portable active
+      stereo speaker takes the unmistakable look and sound of Marshall, unplugs the
+      chords, and takes the show on the road.</p>
+    <p>Weighing in under 7 pounds, the Kilburn is a lightweight piece of vintage
+      styled engineering. Setting the bar as one of the loudest speakers in its
+      class, the Kilburn is a compact, stout-hearted hero with a well-balanced audio
+      that boasts a clear midrange and extended highs for a sound that is both
+      articulate and pronounced.</p>
+  </div>
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mt-10">
+    <img src="https://picsum.photos/seed/sp-desc1/600/400" class="w-full rounded-lg" />
+    <img src="https://picsum.photos/seed/sp-desc2/600/400" class="w-full rounded-lg" />
+  </div>
+</section>
+
+<!-- ===== Related products ===== -->
+<section class="max-w-[1236px] mx-auto px-6 pb-16">
+  <h3 class="text-center font-montserrat text-2xl font-semibold mb-10">Related Products</h3>
+  <div id="relatedGrid" class="grid grid-cols-2 lg:grid-cols-4 gap-8"></div>
+  <div class="flex justify-center mt-10">
+    <button class="btn-outline-gold">Show More</button>
+  </div>
+</section>
+
+<div class="features-bar">
+  <div class="feature-item"><div class="feature-item__icon"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M12 2 4 5v6c0 5 3.6 9 8 11 4.4-2 8-6 8-11V5z"/></svg></div><div><p class="feature-item__title">High Quality</p><p class="feature-item__text">crafted from top materials</p></div></div>
+  <div class="feature-item"><div class="feature-item__icon"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 3"/></svg></div><div><p class="feature-item__title">Warranty Protection</p><p class="feature-item__text">over 2 years</p></div></div>
+  <div class="feature-item"><div class="feature-item__icon"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M3 7h11v9H3zM14 10h4l3 3v3h-7z"/><circle cx="7" cy="18" r="1.5"/><circle cx="18" cy="18" r="1.5"/></svg></div><div><p class="feature-item__title">Free Shipping</p><p class="feature-item__text">order over $150</p></div></div>
+  <div class="feature-item"><div class="feature-item__icon"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M18 4a4 4 0 0 1 0 8M6 4a4 4 0 0 0 0 8m0 0v8m12-8v8M6 12h12"/></svg></div><div><p class="feature-item__title">24/7 Support</p><p class="feature-item__text">dedicated support</p></div></div>
+</div>
+
+<footer class="px-[54px] py-16 border-t border-[#F0F0F0]">
+  <div class="max-w-[1236px] mx-auto grid grid-cols-1 md:grid-cols-4 gap-12">
+    <div><h1 class="font-montserrat text-[28px] font-bold mb-4">Furniro</h1><p class="text-sm text-muted leading-relaxed">400 University Drive Suite 200<br>Coral Gables, FL 33134 USA</p></div>
+    <div><p class="footer-heading">Links</p><a href="home.html" class="footer-link">Home</a><a href="shop.html" class="footer-link">Shop</a><a href="about.html" class="footer-link">About</a><a href="contact.html" class="footer-link">Contact</a></div>
+    <div><p class="footer-heading">Help</p><a href="#" class="footer-link">Payment Options</a><a href="#" class="footer-link">Returns</a><a href="#" class="footer-link">Privacy Policies</a></div>
+    <div><p class="footer-heading">Newsletter</p><div class="flex items-center gap-2"><input type="email" placeholder="Enter Your Email Address" class="newsletter-input" /><button class="text-sm font-semibold border-b border-black pb-1 whitespace-nowrap">SUBSCRIBE</button></div></div>
+  </div>
+  <div class="max-w-[1236px] mx-auto mt-16 pt-6 border-t border-[#F0F0F0]"><p class="text-sm text-muted">2023 Furniro. All rights reserved</p></div>
+</footer>
+
+<script>
+  const relatedProducts = [
+    { name:"Syltherine", cat:"Stylish cafe chair", price:"2,500,000", old:"3,500,000", badge:"sale" },
+    { name:"Leviosa", cat:"Stylish cafe chair", price:"2,500,000" },
+    { name:"Lolito", cat:"Luxury big sofa", price:"7,000,000", old:"14,000,000", badge:"sale" },
+    { name:"Respira", cat:"Outdoor bar table", price:"500,000", badge:"new" },
+  ];
+  document.getElementById("relatedGrid").innerHTML = relatedProducts.map((p,i)=>`
+    <div>
+      <div class="relative rounded-lg overflow-hidden bg-[#F4F5F7]">
+        ${p.badge?`<span class="product-badge product-badge--${p.badge}">${p.badge==="sale"?"-30%":"New"}</span>`:""}
+        <img src="https://picsum.photos/seed/related-${i}/400/400" class="w-full aspect-square object-cover" />
+      </div>
+      <div class="related-card__body">
+        <p class="related-card__name">${p.name}</p>
+        <p class="related-card__cat">${p.cat}</p>
+        <div class="flex items-center justify-center gap-2 mt-2">
+          <span class="font-semibold">Rp ${p.price}</span>
+          ${p.old?`<span class="text-sm text-[#999] line-through">Rp ${p.old}</span>`:""}
+        </div>
+      </div>
+    </div>`).join("");
+
+  function setMain(el){
+    document.querySelectorAll(".thumb").forEach(t=>t.classList.remove("active"));
+    el.classList.add("active");
+    document.getElementById("mainImage").src = el.src.replace("160/160","700/700");
+  }
+  function stepQty(d){
+    const inp = document.getElementById("qtyInput");
+    inp.value = Math.max(1, parseInt(inp.value)+d);
+  }
+  document.getElementById("cartBtn").addEventListener("click",()=>{
+    document.getElementById("miniCart").classList.toggle("open");
+  });
+</script>
+</body>
+</html>
