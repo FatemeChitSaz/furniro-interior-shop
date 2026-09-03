@@ -1,11 +1,12 @@
 {
   "name": "html-css-project",
   "version": "1.0.0",
-  "description": "",
+  "description": "Furniro furniture e-commerce website",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "vite"
+    "dev": "vite",
+    "build": "npx @tailwindcss/cli -i ./src/input.css -o ./dist/output.css --minify",
+    "preview": "vite preview"
   },
   "keywords": [],
   "author": "",
@@ -18,13 +19,5 @@
     "@tailwindcss/cli": "^4.3.3",
     "@tailwindcss/postcss": "^4.3.3",
     "postcss": "^8.5.26"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/FatemeChitSaz/furniro-interior-shop.git"
-  },
-  "bugs": {
-    "url": "https://github.com/FatemeChitSaz/furniro-interior-shop/issues"
-  },
-  "homepage": "https://github.com/FatemeChitSaz/furniro-interior-shop#readme"
+  }
 }
